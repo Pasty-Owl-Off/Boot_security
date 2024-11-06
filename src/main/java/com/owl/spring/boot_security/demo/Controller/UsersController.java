@@ -2,6 +2,8 @@ package com.owl.spring.boot_security.demo.Controller;
 
 import com.owl.spring.boot_security.demo.Models.User;
 import com.owl.spring.boot_security.demo.Service.MyService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,39 +22,45 @@ public class UsersController {
 		this.userService = usersService;
 	}
 
-	@GetMapping(value = "/")
+	@GetMapping(value = "/user")
+	public String profile(@AuthenticationPrincipal User user, Model model) {
+		model.addAttribute("user", user);
+		return "user";
+	}
+
+	@GetMapping(value = "/admin")
 	public String printUsersTable(Model model) {
 		List<User> userList = userService.list();
 		model.addAttribute("users", userList);
-		return "index";
+		return "admin/index";
 	}
 
-	@GetMapping(value = "/new")
+	@GetMapping(value = "/admin/new")
 	public String newUser(@ModelAttribute("user") User user) {
-		return "new";
+		return "admin/new";
 	}
 
-	@PostMapping(value = "/new")
+	@PostMapping(value = "/admin/new")
 	public String createUser(@ModelAttribute("user") User user) {
 		userService.add(user);
-		return "redirect:/";
+		return "redirect:/admin";
 	}
 
-	@GetMapping(value = "/update")
+	@GetMapping(value = "/admin/update")
 	public String updateUser(@RequestParam("id") long id, Model model) {
 		model.addAttribute("user", userService.find(id));
 		return "update";
 	}
 
-	@PostMapping(value = "/update")
+	@PostMapping(value = "/admin/update")
 	public String editUser(@ModelAttribute("user") User user) {
 		userService.update(user);
-		return "redirect:/";
+		return "redirect:/admin";
 	}
 
-	@GetMapping(value = "/delete")
+	@GetMapping(value = "/admin/delete")
 	public String deleteUser(@RequestParam("id") long id) {
 		userService.remove(id);
-		return "redirect:/";
+		return "redirect:/admin";
 	}
 }

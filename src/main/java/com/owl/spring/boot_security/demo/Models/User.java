@@ -9,6 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -28,6 +29,8 @@ public class User implements UserDetails {
     private String name;
     @Column(name = "surname")
     private String surname;
+    @Column(name = "age")
+    private byte age;
     @Column(name = "email", unique = true)
     @Email(message = "Поле email не должно быть пустым")
     private String email;
@@ -48,8 +51,15 @@ public class User implements UserDetails {
         return "Id = " + getId() +
                 "; Имя = " + getName() +
                 "; Фамилия = " + getSurname() +
-                "; Возраст = " + getEmail() + "\n";
+                "; Почта = " + getEmail() + "\n";
     }
+
+    public String getStringRoles() {
+        return roles.stream()
+                .map(Role::getName)
+                .collect(Collectors.joining(", "));
+    }
+
 
     @Override
     public boolean isAccountNonExpired() {
@@ -140,5 +150,13 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public byte getAge() {
+        return age;
+    }
+
+    public void setAge(byte age) {
+        this.age = age;
     }
 }

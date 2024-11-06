@@ -46,6 +46,7 @@ public class UserDAO implements MyDAO {
             userOld.setEmail(userNew.getEmail());
             userOld.setName(userNew.getName());
             userOld.setSurname(userNew.getSurname());
+            userOld.setAge(userNew.getAge());
         } else {
             System.out.println("Пользователь не найден");
         }
