@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/new}" th:object="${user}">
+<form th:method="POST" th:action="@{/admin/new}" th:object="${user}">
 
     <label for="name">Enter name:</label>
     <input type="text" th:field="*{name}" id="name">
@@ -20,6 +20,30 @@
 
     <label for="age">Enter age:</label>
     <input type="number" th:field="*{age}" id="age">
+
+    <br>
+
+    <label for="email">Enter email:</label>
+    <input type="email" th:field="*{email}" id="email">
+
+    <br>
+
+    <label for="password">Enter password:</label>
+    <input type="text" th:field="*{password}" id="password">
+
+    <br>
+
+    <label for="username">Enter username:</label>
+    <input type="text" th:field="*{username}" id="username">
+
+    <br>
+
+    <label for="roles">Enter role:</label>
+    <select th:field="*{roles}" id="roles">
+        <option th:each="role : ${roles}"
+                th:value="${role.getId()}"
+                th:text="${role.getName()}">USER</option>
+    </select>
 
     <br>
 

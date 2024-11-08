@@ -1,6 +1,7 @@
 package com.owl.spring.boot_security.demo.DAO;
 
 import com.owl.spring.boot_security.demo.Models.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -25,20 +26,30 @@ public class UserDAO implements MyDAO {
 
     @Override
     public void remove(long id) {
-        User user = find(id);
+        User user = findById(id);
         if (user != null) {
             entityManager.remove(user);
         }
     }
 
     @Override
-    public User find(long id) {
+    public User findById(long id) {
         return entityManager.find(User.class, id);
     }
 
     @Override
+    public User findByUsername(String username) {
+        List<User> users = entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
+                .setParameter("username", username).getResultList();
+        if (users.isEmpty()) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return users.get(0);
+    }
+
+    @Override
     public void update(User userNew) {
-        User userOld = find(userNew.getId());
+        User userOld = findById(userNew.getId());
         if (userOld != null) {
             userOld.setPassword(userNew.getPassword());
             userOld.setRoles(userNew.getRoles());

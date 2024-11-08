@@ -2,8 +2,8 @@ package com.owl.spring.boot_security.demo.Controller;
 
 import com.owl.spring.boot_security.demo.Models.User;
 import com.owl.spring.boot_security.demo.Service.MyService;
+import com.owl.spring.boot_security.demo.Service.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +16,9 @@ import java.util.List;
 @Controller
 public class UsersController {
 
-	private MyService userService;
+	private final MyService userService;
 
-	public UsersController(MyService usersService) {
+	public UsersController(UserService usersService) {
 		this.userService = usersService;
 	}
 
@@ -48,7 +48,7 @@ public class UsersController {
 
 	@GetMapping(value = "/admin/update")
 	public String updateUser(@RequestParam("id") long id, Model model) {
-		model.addAttribute("user", userService.find(id));
+		model.addAttribute("user", userService.findById(id));
 		return "update";
 	}
 

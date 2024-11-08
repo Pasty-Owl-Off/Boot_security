@@ -31,8 +31,13 @@ public class UserService implements MyService {
 
     @Override
     @Transactional(readOnly = true)
-    public User find(long id) {
-        return userDAO.find(id);
+    public User findById(long id) {
+        return userDAO.findById(id);
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return userDAO.findByUsername(username);
     }
 
     @Override
