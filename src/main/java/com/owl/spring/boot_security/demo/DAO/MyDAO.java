@@ -10,6 +10,6 @@ public interface MyDAO {
     List<User> list();
     void remove(long id);
     User findById(long id);
-    User findByUsername(String username);
+    List<User> findByUsername(String username);
     void update(User userNew);
 }

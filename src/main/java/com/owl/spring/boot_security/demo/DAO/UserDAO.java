@@ -38,13 +38,9 @@ public class UserDAO implements MyDAO {
     }
 
     @Override
-    public User findByUsername(String username) {
-        List<User> users = entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
+    public List<User> findByUsername(String username) {
+        return entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
                 .setParameter("username", username).getResultList();
-        if (users.isEmpty()) {
-            throw new UsernameNotFoundException("User not found");
-        }
-        return users.get(0);
     }
 
     @Override

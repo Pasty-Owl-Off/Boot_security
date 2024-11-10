@@ -15,6 +15,11 @@ public class Role implements GrantedAuthority {
     @Transient
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
+    @Transient
+    public static int userRoleID = 1;
+    @Transient
+    public static int adminRoleID = 2;
+
 
     public Role() {
     }
