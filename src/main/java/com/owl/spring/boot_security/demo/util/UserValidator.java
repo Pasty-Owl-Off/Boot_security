@@ -1,6 +1,6 @@
 package com.owl.spring.boot_security.demo.util;
 
-import com.owl.spring.boot_security.demo.DAO.MyDAO;
+import com.owl.spring.boot_security.demo.DAO.UserDAO;
 import com.owl.spring.boot_security.demo.Models.User;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -9,9 +9,9 @@ import org.springframework.validation.Validator;
 @Component
 public class UserValidator implements Validator {
 
-    private final MyDAO userDAO;
+    private final UserDAO userDAO;
 
-    public UserValidator(MyDAO userDAO) {
+    public UserValidator(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
 
@@ -26,6 +26,14 @@ public class UserValidator implements Validator {
 
         if (!userDAO.findByUsername(user.getUsername()).isEmpty()) {
             errors.rejectValue("username", "", "This username is already used");
+        }
+
+        if (!user.getPassword().equals(user.getPasswordConfirm())) {
+            errors.rejectValue("password", "", "Password and confirm password is not equal");
+        }
+
+        if (!userDAO.findByEmail(user.getEmail()).isEmpty()) {
+            errors.rejectValue("email", "", "This email is already used");
         }
     }
 }

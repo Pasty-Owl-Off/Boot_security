@@ -6,7 +6,11 @@
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/update}" th:object="${user}">
+<form th:action="@{/logout}" th:method="POST">
+    <input type="submit" value="logout">
+</form>
+
+<form th:method="POST" th:action="@{/admin/update}" th:object="${user}">
 
     <input type="hidden" th:field="*{id}">
 
@@ -28,6 +32,8 @@
     <input type="submit" value="Update">
 
 </form>
+
+<a th:href="@{/admin/}">back</a>
 
 </body>
 </html>

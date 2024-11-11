@@ -2,28 +2,30 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Update user</title>
+    <title>Login</title>
 </head>
 <body>
 
 <form name="f" th:method="POST" th:action="@{/process_login}">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
     <label for="username">Enter username:</label>
-    <input type="text" name="username" id="username">
+    <input type="text" name="username" id="username"/>
 
     <br/>
 
     <label for="password">Enter password:</label>
-    <input type="password" name="password" id="password">
+    <input type="password" name="password" id="password"/>
 
     <br/>
 
-    <input type="submit" value="Login">
+    <input type="submit" value="Login"/>
 
     <div th:if="${param.error}" style="color: red">
         Incorrect username or password
     </div>
 </form>
 
+<a href="/auth/registration">registration</a>
 </body>
 </html>

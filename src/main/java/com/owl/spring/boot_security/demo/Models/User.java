@@ -19,7 +19,6 @@ public class User implements UserDetails {
     @Size(min = 3, max = 20)
     private String username;
     @Column(name = "password")
-    @Size(min = 3, max = 20)
     private String password;
     @Transient
     private String passwordConfirm;
@@ -38,10 +37,15 @@ public class User implements UserDetails {
 
     public User() {}
 
-    public User(String name, String surname, String email) {
+    public User(String name, String surname, byte age, String email, String username, String password, Set<Role> roles) {
         this.name = name;
         this.surname = surname;
         this.email = email;
+        this.age = age;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
     }
 
     @Override
@@ -49,7 +53,10 @@ public class User implements UserDetails {
         return "Id = " + getId() +
                 "; Имя = " + getName() +
                 "; Фамилия = " + getSurname() +
-                "; Почта = " + getEmail() + "\n";
+                "; Почта = " + getEmail() +
+                "; Возраст = " + getAge() +
+                "; Имя пользователя" + getUsername() +
+                "; Роль = " + getRoles() + "\n";
     }
 
     public String getStringRoles() {

@@ -1,7 +1,8 @@
 package com.owl.spring.boot_security.demo.Controller;
 
-import com.owl.spring.boot_security.demo.Models.Role;
 import com.owl.spring.boot_security.demo.Models.User;
+import com.owl.spring.boot_security.demo.Service.RegistrationService;
+import com.owl.spring.boot_security.demo.Service.RoleService;
 import com.owl.spring.boot_security.demo.Service.UserService;
 import com.owl.spring.boot_security.demo.util.UserValidator;
 import org.springframework.stereotype.Controller;
@@ -18,12 +19,15 @@ import java.util.Set;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final UserService userService;
+    private final RegistrationService registrationService;
+    private final RoleService roleService;
     private final UserValidator userValidator;
 
-    public AuthController(UserService usersService, UserValidator userValidator) {
-        this.userService = usersService;
+    public AuthController(UserService usersService, UserValidator userValidator, RoleService roleService,
+                          RegistrationService registrationService) {
+        this.registrationService = registrationService;
         this.userValidator = userValidator;
+        this.roleService = roleService;
     }
 
     @GetMapping("/login")
@@ -41,11 +45,16 @@ public class AuthController {
                                       BindingResult bindingResult) {
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "/registration";
+            return "/auth/registration";
         } else {
-            user.setRoles(Set.of(new Role(Role.userRoleID)));
-            userService.add(user);
-            return "redirect:/success_registration";
+            user.setRoles(roleService.findByName("USER"));
+            registrationService.registration(user);
+            return "redirect:/auth/success_registration";
         }
+    }
+
+    @GetMapping("/success_registration")
+    public String successRegistrationPage(){
+        return "/auth/success_registration";
     }
 }

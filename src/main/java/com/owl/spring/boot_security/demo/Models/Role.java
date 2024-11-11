@@ -15,10 +15,6 @@ public class Role implements GrantedAuthority {
     @Transient
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
-    @Transient
-    public static int userRoleID = 1;
-    @Transient
-    public static int adminRoleID = 2;
 
 
     public Role() {
@@ -31,6 +27,11 @@ public class Role implements GrantedAuthority {
     public Role(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 
     @Override

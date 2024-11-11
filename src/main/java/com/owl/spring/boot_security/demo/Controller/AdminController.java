@@ -1,21 +1,37 @@
 package com.owl.spring.boot_security.demo.Controller;
 
 import com.owl.spring.boot_security.demo.Models.User;
+import com.owl.spring.boot_security.demo.Service.RegistrationService;
+import com.owl.spring.boot_security.demo.Service.RoleService;
 import com.owl.spring.boot_security.demo.Service.UserService;
+import com.owl.spring.boot_security.demo.util.UserValidator;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
     private final UserService userService;
+    private final RoleService roleService;
+    private final UserValidator userValidator;
+    private final RegistrationService registrationService;
 
-    public AdminController(UserService usersService) {
+
+    public AdminController(UserService usersService, RoleService roleService,
+                           UserValidator userValidator, RegistrationService registrationService) {
         this.userService = usersService;
+        this.roleService = roleService;
+        this.userValidator = userValidator;
+        this.registrationService = registrationService;
     }
 
     @GetMapping(value = "/")
@@ -26,31 +42,53 @@ public class AdminController {
     }
 
     @GetMapping(value = "/new")
-    public String newUser(@ModelAttribute("user") User user) {
-        return "admin/new";
+    public String newUser(@ModelAttribute("user") User user, Model model) {
+        model.addAttribute("roles", roleService.listRole().stream().map(Set::of)
+                .collect(Collectors.toList()));
+        return "/admin/new";
     }
 
     @PostMapping(value = "/new")
-    public String createUser(@ModelAttribute("user") User user) {
-        userService.add(user);
-        return "redirect:/admin";
+    public String createUser(@ModelAttribute("user") @Valid User user,
+                             BindingResult bindingResult) {
+        userValidator.validate(user, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "/admin/new";
+        } else {
+            registrationService.registration(user);
+            return "redirect:/admin/";
+        }
     }
 
     @GetMapping(value = "/update")
     public String updateUser(@RequestParam("id") long id, Model model) {
+        model.addAttribute("roles", roleService.listRole().stream().map(Set::of)
+                .collect(Collectors.toList()));
         model.addAttribute("user", userService.findById(id));
         return "/admin/update";
     }
 
     @PostMapping(value = "/update")
-    public String editUser(@ModelAttribute("user") User user) {
-        userService.update(user);
-        return "redirect:/admin";
+    public String editUser(@ModelAttribute("user") @Valid User user,
+                           BindingResult bindingResult) {
+        userValidator.validate(user, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "/admin/update";
+        } else {
+            userService.update(user);
+            return "redirect:/admin/";
+        }
     }
 
     @GetMapping(value = "/delete")
     public String deleteUser(@RequestParam("id") long id) {
         userService.remove(id);
-        return "redirect:/admin";
+        return "redirect:/admin/";
+    }
+
+    @GetMapping(value = "/user_information")
+    public String profile(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", user);
+        return "/admin/user_information";
     }
 }
