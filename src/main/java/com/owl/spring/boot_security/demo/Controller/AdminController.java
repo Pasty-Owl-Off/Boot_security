@@ -21,15 +21,13 @@ import java.util.stream.Collectors;
 public class AdminController {
 
     private final UserService userService;
-    private final RoleService roleService;
     private final UserValidator userValidator;
     private final RegistrationService registrationService;
 
 
-    public AdminController(UserService usersService, RoleService roleService,
-                           UserValidator userValidator, RegistrationService registrationService) {
+    public AdminController(UserService usersService, UserValidator userValidator,
+                           RegistrationService registrationService) {
         this.userService = usersService;
-        this.roleService = roleService;
         this.userValidator = userValidator;
         this.registrationService = registrationService;
     }
@@ -43,8 +41,6 @@ public class AdminController {
 
     @GetMapping(value = "/new")
     public String newUser(@ModelAttribute("user") User user, Model model) {
-        model.addAttribute("roles", roleService.listRole().stream().map(Set::of)
-                .collect(Collectors.toList()));
         return "/admin/new";
     }
 
@@ -62,22 +58,14 @@ public class AdminController {
 
     @GetMapping(value = "/update")
     public String updateUser(@RequestParam("id") long id, Model model) {
-        model.addAttribute("roles", roleService.listRole().stream().map(Set::of)
-                .collect(Collectors.toList()));
         model.addAttribute("user", userService.findById(id));
         return "/admin/update";
     }
 
     @PostMapping(value = "/update")
-    public String editUser(@ModelAttribute("user") @Valid User user,
-                           BindingResult bindingResult) {
-        userValidator.validate(user, bindingResult);
-        if (bindingResult.hasErrors()) {
-            return "/admin/update";
-        } else {
-            userService.update(user);
-            return "redirect:/admin/";
-        }
+    public String editUser(@ModelAttribute("user") @Valid User user) {
+        userService.update(user);
+        return "redirect:/admin/";
     }
 
     @GetMapping(value = "/delete")

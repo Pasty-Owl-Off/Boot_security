@@ -21,8 +21,8 @@ public class SpringBootSecurityDemoApplication {
 		RegistrationService registrationService = context.getBean(RegistrationService.class);
 		UserServiceImpl userService = context.getBean(UserServiceImpl.class);
 		RoleServiceImpl roleService = context.getBean(RoleServiceImpl.class);
-		Role adminRole = new Role(1, "ADMIN");
-		Role userRole = new Role(2, "USER");
+		Role adminRole = new Role(1, "ROLE_ADMIN");
+		Role userRole = new Role(2, "ROLE_USER");
 		User admin1 = new User("Name1", "Surname1", (byte) 11,
 				"email1@gmail.com", "Admin1", "Admin1", Set.of(adminRole, userRole));
 		User user1 = new User("Name2", "Surname2", (byte) 22,

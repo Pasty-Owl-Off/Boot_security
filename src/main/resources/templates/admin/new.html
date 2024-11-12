@@ -37,8 +37,13 @@
     <br>
 
     <label for="password">Enter password:</label>
-    <input type="text" th:field="*{password}" id="password">
+    <input type="password" th:field="*{password}" id="password">
     <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Surname error</div>
+
+    <br>
+
+    <label for="passwordConfirm">Confirm password:</label>
+    <input type="password" th:field="*{passwordConfirm}" id="passwordConfirm">
 
     <br>
 
@@ -50,8 +55,8 @@
 
     <label for="roles">Enter role:</label>
     <select th:field="*{roles}" id="roles">
-        <option th:each="role : ${roles}" th:value="${role}" th:text="${role.toString()}">
-        </option>
+        <option th:value="ROLE_USER">ROLE_USER</option>
+        <option th:value="ROLE_ADMIN">ROLE_ADMIN</option>
     </select>
 
     <br>

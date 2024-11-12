@@ -29,7 +29,7 @@ public class User implements UserDetails {
     @Column(name = "age")
     private byte age;
     @Column(name = "email", unique = true)
-    @Email(message = "Поле email не должно быть пустым")
+    @Email(message = "Поле email некорректно")
     private String email;
     @Column(name = "roles")
     @ManyToMany(fetch = FetchType.EAGER)
@@ -40,7 +40,6 @@ public class User implements UserDetails {
     public User(String name, String surname, byte age, String email, String username, String password, Set<Role> roles) {
         this.name = name;
         this.surname = surname;
-        this.email = email;
         this.age = age;
         this.email = email;
         this.username = username;
@@ -64,7 +63,6 @@ public class User implements UserDetails {
                 .map(Role::getName)
                 .collect(Collectors.joining(", "));
     }
-
 
     @Override
     public boolean isAccountNonExpired() {
@@ -163,5 +161,9 @@ public class User implements UserDetails {
 
     public void setAge(byte age) {
         this.age = age;
+    }
+
+    public void addRoles(Role roleUser) {
+        roles.add(roleUser);
     }
 }
