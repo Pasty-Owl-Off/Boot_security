@@ -64,6 +64,10 @@ public class User implements UserDetails {
                 .collect(Collectors.joining(", "));
     }
 
+    public void addRoles(Role roleUser) {
+        roles.add(roleUser);
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -161,9 +165,5 @@ public class User implements UserDetails {
 
     public void setAge(byte age) {
         this.age = age;
-    }
-
-    public void addRoles(Role roleUser) {
-        roles.add(roleUser);
     }
 }
