@@ -9,6 +9,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 @SpringBootApplication
@@ -24,9 +27,9 @@ public class SpringBootSecurityDemoApplication {
 		Role adminRole = new Role(1, "ROLE_ADMIN");
 		Role userRole = new Role(2, "ROLE_USER");
 		User admin1 = new User("Name1", "Surname1", (byte) 11,
-				"email1@gmail.com", "Admin1", "Admin1", Set.of(adminRole, userRole));
+				"email1@gmail.com", "Admin1", "Admin1", new HashSet<Role>(Arrays.asList(adminRole, userRole)));
 		User user1 = new User("Name2", "Surname2", (byte) 22,
-				"email2@gmail.com", "User1", "User1", Set.of(userRole));
+				"email2@gmail.com", "User1", "User1", new HashSet<Role>(Arrays.asList(userRole)));
 
 		if (roleService.findById(adminRole.getId()) == null) {
 			roleService.add(adminRole);
@@ -43,5 +46,6 @@ public class SpringBootSecurityDemoApplication {
 		if (userService.findByUsername(user1.getUsername()).isEmpty()) {
 			registrationService.registration(user1);
 		}
+		System.out.println(userService.findById(1));
 	}
 }

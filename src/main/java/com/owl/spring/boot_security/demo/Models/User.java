@@ -32,7 +32,7 @@ public class User implements UserDetails {
     @Email(message = "Поле email некорректно")
     private String email;
     @Column(name = "roles")
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<Role> roles;
 
     public User() {}
@@ -49,13 +49,13 @@ public class User implements UserDetails {
 
     @Override
     public String toString() {
-        return "Id = " + getId() +
-                "; Имя = " + getName() +
-                "; Фамилия = " + getSurname() +
-                "; Почта = " + getEmail() +
-                "; Возраст = " + getAge() +
-                "; Имя пользователя" + getUsername() +
-                "; Роль = " + getRoles() + "\n";
+        return "Id = " + this.getId() +
+                "; Имя = " + this.getName() +
+                "; Фамилия = " + this.getSurname() +
+                "; Почта = " + this.getEmail() +
+                "; Возраст = " + this.getAge() +
+                "; Имя пользователя" + this.getUsername() +
+                "; Роль = " + this.getRoles() + "\n";
     }
 
     public String getStringRoles() {
@@ -66,7 +66,7 @@ public class User implements UserDetails {
     }
 
     public void addRoles(Role roleUser) {
-        roles.add(roleUser);
+        this.roles.add(roleUser);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
+        return this.getRoles();
     }
 
     @Override

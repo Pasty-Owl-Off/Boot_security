@@ -12,11 +12,9 @@ import java.util.List;
 public class UserServiceImpl implements UserService{
 
     private final UserDAO userDAO;
-    private final RoleService roleService;
 
-    public UserServiceImpl(UserDAO userDAO, RoleService roleService) {
+    public UserServiceImpl(UserDAO userDAO) {
         this.userDAO = userDAO;
-        this.roleService = roleService;
     }
 
     @Override
@@ -40,11 +38,6 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public void update(User user) {
-        if (user.getRoles().equals(roleService.findByName("ROLE_ADMIN"))) {
-            roleService.findByName("ROLE_USER").stream()
-                    .findFirst()
-                    .ifPresent(user::addRoles);
-        }
         userDAO.update(user);
     }
 
@@ -55,11 +48,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> findByUsername(String username) {
         return userDAO.findByUsername(username);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         List<User> users = userDAO.findByUsername(username);
 

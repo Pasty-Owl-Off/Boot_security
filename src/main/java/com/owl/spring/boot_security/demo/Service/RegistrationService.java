@@ -13,22 +13,23 @@ import java.util.Set;
 @Service
 public class RegistrationService {
     private final UserDAO userDAO;
-    private final RoleService roleService;
+//    private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
 
-    public RegistrationService(UserDAO userDAO, PasswordEncoder passwordEncoder,
-                               RoleService roleService) {
+    public RegistrationService(UserDAO userDAO, PasswordEncoder passwordEncoder
+//            , RoleService roleService
+    ) {
         this.userDAO = userDAO;
         this.passwordEncoder = passwordEncoder;
-        this.roleService = roleService;
+//        this.roleService = roleService;
     }
 
     @Transactional
     public void registration(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        roleService.findByName("ROLE_USER").stream()
-                .findFirst()
-                .ifPresent(user::addRoles);
+//        roleService.findByName("ROLE_USER").stream()
+//                .findFirst()
+//                .ifPresent(user::addRoles);
         userDAO.add(user);
     }
 }

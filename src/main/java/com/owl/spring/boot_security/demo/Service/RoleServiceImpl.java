@@ -1,19 +1,18 @@
 package com.owl.spring.boot_security.demo.Service;
 
-import com.owl.spring.boot_security.demo.DAO.RoleDAOImpl;
+import com.owl.spring.boot_security.demo.DAO.RoleDAO;
 import com.owl.spring.boot_security.demo.Models.Role;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Set;
 
 
 @Service
 public class RoleServiceImpl implements RoleService{
-    private final RoleDAOImpl roleDAO;
+    private final RoleDAO roleDAO;
 
-    public RoleServiceImpl(RoleDAOImpl roleDAO) {
+    public RoleServiceImpl(RoleDAO roleDAO) {
         this.roleDAO = roleDAO;
     }
 
@@ -42,6 +41,7 @@ public class RoleServiceImpl implements RoleService{
     }
 
     @Override
+    @Transactional
     public List<Role> listRole() {
         return roleDAO.listRole();
     }

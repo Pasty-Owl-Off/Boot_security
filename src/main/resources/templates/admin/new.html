@@ -29,19 +29,19 @@
 
     <label for="age">Enter age:</label>
     <input type="number" th:field="*{age}" id="age">
-    <div style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Surname error</div>
+    <div style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}">age error</div>
 
     <br>
 
     <label for="email">Enter email:</label>
     <input type="email" th:field="*{email}" id="email">
-    <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Surname error</div>
+    <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
 
     <br>
 
     <label for="password">Enter password:</label>
     <input type="password" th:field="*{password}" id="password">
-    <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Surname error</div>
+    <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
 
     <br>
 
@@ -52,7 +52,7 @@
 
     <label for="username">Enter username:</label>
     <input type="text" th:field="*{username}" id="username">
-    <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Surname error</div>
+    <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</div>
 
     <br>
 
