@@ -46,6 +46,5 @@ public class SpringBootSecurityDemoApplication {
 		if (userService.findByUsername(user1.getUsername()).isEmpty()) {
 			registrationService.registration(user1);
 		}
-		System.out.println(userService.findById(1));
 	}
 }
