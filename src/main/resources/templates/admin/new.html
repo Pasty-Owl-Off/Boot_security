@@ -39,6 +39,12 @@
 
     <br>
 
+    <label for="username">Enter username:</label>
+    <input type="text" th:field="*{username}" id="username">
+    <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</div>
+
+    <br>
+
     <label for="password">Enter password:</label>
     <input type="password" th:field="*{password}" id="password">
     <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
@@ -50,14 +56,8 @@
 
     <br>
 
-    <label for="username">Enter username:</label>
-    <input type="text" th:field="*{username}" id="username">
-    <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</div>
-
-    <br>
-
     <label for="roles">Enter role:</label>
-    <select th:field="*{roles}" id="roles">
+    <select th:field="*{roles}" id="roles" multiple>
         <option th:value="ROLE_USER">ROLE_USER</option>
         <option th:value="ROLE_ADMIN">ROLE_ADMIN</option>
     </select>

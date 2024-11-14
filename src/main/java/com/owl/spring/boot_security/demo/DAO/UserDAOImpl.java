@@ -1,6 +1,8 @@
 package com.owl.spring.boot_security.demo.DAO;
 
 import com.owl.spring.boot_security.demo.Models.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -52,8 +54,9 @@ public class UserDAOImpl implements UserDAO {
             userOld.setName(userNew.getName());
             userOld.setSurname(userNew.getSurname());
             userOld.setAge(userNew.getAge());
+            userOld.setPassword(userNew.getPassword());
         } else {
-            System.out.println("Пользователь не найден");
+            throw new UsernameNotFoundException("Пользователь не найден");
         }
     }
 

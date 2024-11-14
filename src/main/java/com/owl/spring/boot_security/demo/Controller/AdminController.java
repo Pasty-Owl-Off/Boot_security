@@ -58,14 +58,22 @@ public class AdminController {
 
     @GetMapping(value = "/update")
     public String updateUser(@RequestParam("id") long id, Model model) {
-        model.addAttribute("user", userService.findById(id));
+        User user = userService.findById(id);
+        user.setPasswordConfirm(user.getPassword());
+        model.addAttribute("user", user);
         return "/admin/update";
     }
 
     @PostMapping(value = "/update")
-    public String editUser(@ModelAttribute("user") @Valid User user) {
-        userService.update(user);
-        return "redirect:/admin/";
+    public String editUser(@ModelAttribute("user") @Valid User user,
+                           BindingResult bindingResult) {
+        userValidator.validate(user, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return "/admin/update";
+        } else {
+            registrationService.update(user);
+            return "redirect:/admin/";
+        }
     }
 
     @GetMapping(value = "/delete")

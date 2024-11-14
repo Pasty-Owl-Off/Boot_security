@@ -2,6 +2,7 @@ package com.owl.spring.boot_security.demo.Service;
 
 import com.owl.spring.boot_security.demo.DAO.UserDAO;
 import com.owl.spring.boot_security.demo.Models.User;
+import org.hibernate.Hibernate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -26,19 +27,17 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional(readOnly = true)
     public List<User> list() {
-        return userDAO.list();
+        List<User> users = userDAO.list();
+        users.forEach(user -> Hibernate.initialize(user.getRoles()));
+        return users;
     }
 
     @Override
     @Transactional(readOnly = true)
     public User findById(long id) {
-        return userDAO.findById(id);
-    }
-
-    @Override
-    @Transactional
-    public void update(User user) {
-        userDAO.update(user);
+        User user = userDAO.findById(id);
+        Hibernate.initialize(user.getRoles());
+        return user;
     }
 
     @Override
@@ -50,13 +49,16 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional(readOnly = true)
     public List<User> findByUsername(String username) {
-        return userDAO.findByUsername(username);
+        List<User> users = userDAO.findByUsername(username);
+        users.forEach(user -> Hibernate.initialize(user.getRoles()));
+        return users;
     }
 
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         List<User> users = userDAO.findByUsername(username);
+        users.forEach(user -> Hibernate.initialize(user.getRoles()));
 
         if (users.isEmpty()) {
             throw new UsernameNotFoundException("Incorrect username");

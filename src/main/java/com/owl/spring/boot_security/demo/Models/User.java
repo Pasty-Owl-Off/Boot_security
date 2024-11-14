@@ -15,7 +15,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "username", unique = true)
+    @Column(name = "username")
     @Size(min = 3, max = 20)
     private String username;
     @Column(name = "password")
@@ -28,7 +28,7 @@ public class User implements UserDetails {
     private String surname;
     @Column(name = "age")
     private byte age;
-    @Column(name = "email", unique = true)
+    @Column(name = "email")
     @Email(message = "Поле email некорректно")
     private String email;
     @Column(name = "roles")

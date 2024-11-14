@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 
 @Component
-public class StringToRoleSetConverter implements Converter<String, Set<Role>> {
+public class StringToRoleSetConverter implements Converter<String, Role> {
     private final RoleService roleService;
 
     public StringToRoleSetConverter(RoleService roleService) {
@@ -16,7 +16,7 @@ public class StringToRoleSetConverter implements Converter<String, Set<Role>> {
     }
 
     @Override
-    public Set<Role> convert(String name) {
-        return roleService.findByName(name);
+    public Role convert(String name) {
+        return roleService.findByName(name).iterator().next();
     }
 }

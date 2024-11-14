@@ -24,7 +24,8 @@ public class UserValidator implements Validator {
     public void validate(Object target, Errors errors) {
         User user = (User) target;
 
-        if (!userDAO.findByUsername(user.getUsername()).isEmpty()) {
+        if (!userDAO.findByUsername(user.getUsername()).isEmpty() &&
+                userDAO.findByUsername(user.getUsername()).get(0).getId() != user.getId()) {
             errors.rejectValue("username", "", "This username is already used");
         }
 
@@ -32,7 +33,8 @@ public class UserValidator implements Validator {
             errors.rejectValue("password", "", "Password and confirm password is not equal");
         }
 
-        if (!userDAO.findByEmail(user.getEmail()).isEmpty()) {
+        if (!userDAO.findByEmail(user.getEmail()).isEmpty() &&
+                userDAO.findByEmail(user.getEmail()).get(0).getId() != user.getId()) {
             errors.rejectValue("email", "", "This email is already used");
         }
     }

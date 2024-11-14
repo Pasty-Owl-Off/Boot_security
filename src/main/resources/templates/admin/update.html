@@ -16,8 +16,6 @@
 <form th:method="POST" th:action="@{/admin/update}" th:object="${user}">
 
     <input type="hidden" th:field="*{id}">
-    <input type="hidden" th:field="*{password}">
-    <input type="hidden" th:field="*{passwordConfirm}" th:value="${user.getPassword()}">
 
     <label for="name">Enter name:</label>
     <input type="text" th:field="*{name}" id="name" th:value="${user.getName()}">
@@ -37,20 +35,31 @@
 
     <br>
 
-    <label for="surname">Enter email:</label>
+    <label for="email">Enter email:</label>
     <input type="email" th:field="*{email}" id="email" th:value="${user.getEmail()}">
     <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
 
     <br>
 
-    <label for="surname">Enter username:</label>
+    <label for="username">Enter username:</label>
     <input type="text" th:field="*{username}" id="username" th:value="${user.getUsername()}">
     <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</div>
 
     <br>
 
+    <label for="password">Enter password:</label>
+    <input type="text" th:field="*{password}" id="password" th:value="${user.getPassword()}">
+    <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
+
+    <br>
+
+    <label for="passwordConfirm">Confirm password:</label>
+    <input type="text" th:field="*{passwordConfirm}" id="passwordConfirm" th:value="${user.getPasswordConfirm()}">
+
+    <br>
+
     <label for="roles">Enter role:</label>
-    <select th:field="*{roles}" id="roles">
+    <select th:field="*{roles}" id="roles" multiple>
         <option th:value="ROLE_USER">ROLE_USER</option>
         <option th:value="ROLE_ADMIN">ROLE_ADMIN</option>
     </select>
